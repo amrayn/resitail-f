@@ -2,7 +2,7 @@
 
 [**This is in early stages of development**]
 
-resitail-f is resitail hook that is aimed to provide a better interface than simple resitail-browser with ability to:
+resitail-f is [resitail hook](https://github.com/muflihun/resitail#overview) that is aimed to provide a better interface than simple resitail-browser with ability to:
 
  * Login for clients - so not everyone who is using this interface can see everyone's logs on the server
  * Better interface - where each client is a `channel` hence you can browse and filter logs for the current channel
