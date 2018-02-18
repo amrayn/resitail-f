@@ -1,0 +1,21 @@
+{
+  "name": "resitail-f",
+  "version": "0.0.0",
+  "description": "Stream residue logs and forever to your browser",
+  "homepage": "https://github.com/muflihun/resitail-f",
+  "author": "Muflihun Labs <info@muflihun.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/muflihun/resitail-f.git"
+  },
+  "keywords": [
+    "tail",
+    "residue",
+    "tailf",
+    "resitail-hook",
+    "log"
+  ]
+}
