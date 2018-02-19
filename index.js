@@ -2,9 +2,9 @@
 
 const fs = require('fs');
 
-function resitailf (config, serverInfo) {
-    this.config = config;
-    this.serverInfo = serverInfo;
+function resitailf (options) {
+    this.config = options.config;
+    this.serverInfo = options.serverInfo;
 }
 
 resitailf.prototype.send = (data) => {
@@ -12,4 +12,4 @@ resitailf.prototype.send = (data) => {
     console.log(data);
 }
 
-module.exports = (config, serverInfo) => new resitailf(config, serverInfo);
+module.exports = (options) => new resitailf(options);
