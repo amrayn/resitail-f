@@ -90,8 +90,8 @@
           classes.push('hidden-client');
       }
 
-      if (inp.is_err) {
-          classes.push('log-error');
+      if (inp.log_type) {
+          classes.push(`log-${inp.log_type}`);
       }
 
       const newLine = $("<div>", {

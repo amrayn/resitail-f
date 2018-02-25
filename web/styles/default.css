@@ -1,6 +1,7 @@
 
 body {
     margin: 1px;
+    background-color: #000;
 }
 
 #lines {
@@ -36,6 +37,10 @@ body {
 .line.evt-error,
 .line.log-error {
     color: #f00;
+}
+
+.line.log-debug {
+    color: #4e862e;
 }
 
 .loggers-list {

@@ -37,17 +37,25 @@ function resitailf (options) {
     }
 
     this.send = (data) => {
-        const loggerId = data.logger_id || data.channel_name;
-        const clientId = data.client_id || data.channel_name;
+        const logger_id = data.logger_id || data.channel_name;
+        const client_id = data.client_id || data.channel_name;
+        const typeMap = [
+            { input: ['[ERROR]', '[vERROR]'], type: 'error' },
+            { input: ['[DEBUG]', '[vDEBUG]', '[vDEBUG2]' ], type: 'debug' },
+        ];
 
         for (var i = 0; i < this.connected_clients.length; ++i) {
-            if (this.connected_clients[i].ignore_loggers_list.indexOf(loggerId) === -1 &&
-                this.connected_clients[i].ignore_clients_list.indexOf(clientId) === -1) {
-                this.io.sockets.connected[this.connected_clients[i].socket].emit("data", {
-                    data,
-                    is_err: data.line.indexOf('[ERROR]') > -1,
-                    is_inf: data.line.indexOf('[INFO]') > -1,
-                });
+            if (this.connected_clients[i].ignore_loggers_list.indexOf(logger_id) === -1 &&
+                this.connected_clients[i].ignore_clients_list.indexOf(client_id) === -1) {
+                const data_ = { data };
+                for (let i = 0; i < typeMap.length; ++i) {
+                    for (let j = 0; j < typeMap[i].input.length; ++j) {
+                        if (data.line.indexOf(typeMap[i].input[j]) > -1) {
+                            data_.log_type = typeMap[i].type;
+                        }
+                    }
+                }
+                this.io.sockets.connected[this.connected_clients[i].socket].emit("data", data_);
             }
         }
     }
