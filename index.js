@@ -23,13 +23,13 @@ const socket = require('socket.io');
 const includes = require('lodash.includes');
 const Server = require('./lib/server.js');
 
-function resitailf (options) {
+function resitailf(options) {
     this.config = options.config;
     this.serverInfo = options.serverInfo;
 
     const server = new Server(this.config);
     this.io = server.io;
-    
+
     this.connected_clients = [];
 
     this.set_recent = (recent) => {
@@ -39,19 +39,19 @@ function resitailf (options) {
     this.send = (data) => {
         const logger_id = data.logger_id || data.channel_name;
         const client_id = data.client_id || data.channel_name;
-        const typeMap = [
-            { input: ['[ERROR]', '[vERROR]'], type: 'error' },
-            { input: ['[DEBUG]', '[vDEBUG]', '[vDEBUG2]' ], type: 'debug' },
-        ];
 
         for (var i = 0; i < this.connected_clients.length; ++i) {
             if (this.connected_clients[i].ignore_loggers_list.indexOf(logger_id) === -1 &&
                 this.connected_clients[i].ignore_clients_list.indexOf(client_id) === -1) {
-                const data_ = { data };
-                for (let i = 0; i < typeMap.length; ++i) {
-                    for (let j = 0; j < typeMap[i].input.length; ++j) {
-                        if (data.line.indexOf(typeMap[i].input[j]) > -1) {
-                            data_.log_type = typeMap[i].type;
+                const data_ = {
+                    data
+                };
+                if (this.config.type_map) {
+                    for (let i = 0; i < this.config.type_map.length; ++i) {
+                        for (let j = 0; j < this.config.type_map[i].input.length; ++j) {
+                            if (data.line.indexOf(this.config.type_map[i].input[j]) > -1) {
+                                data_.log_type = this.config.type_map[i].type;
+                            }
                         }
                     }
                 }
@@ -62,7 +62,7 @@ function resitailf (options) {
 
     server.io.sockets.on('connection', (socket) => {
         const _this = this;
-    
+
         socket.on('client-ready', function() {
             _this.connected_clients.push({
                 socket: socket.id,
