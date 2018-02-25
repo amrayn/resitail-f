@@ -105,4 +105,6 @@
       if ($("#follow").is(":checked")) {
           newLine[0].scrollIntoView(false);
       }
+
+      $(".line:not(:nth-child(n+" + ($(".line").length - 5000) + "))").remove(); // remove old logs
   });
