@@ -69,8 +69,8 @@ function resitailf(options) {
                 ignore_clients_list: [],
                 ignore_loggers_list: [],
             });
-            socket.emit("server-info", {
-                ..._this.server_info,
+            socket.emit("server-ready", {
+                server_info: _this.server_info,
                 max_lines: _this.config.max_lines,
             });
 

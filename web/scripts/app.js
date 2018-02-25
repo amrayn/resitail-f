@@ -35,10 +35,11 @@
       }
   });
 
-  socket.on("server-info", function(server_info){
-      if (server_info.max_lines) {
-        max_lines = server_info.max_lines;
+  socket.on("server-ready", function(info){
+      if (info.max_lines) {
+        max_lines = info.max_lines;
       }
+      const server_info = info.server_info;
       server_info.clients.forEach((client) => {
           const client_id = client.client_id;
           if ($("#side-bar").find(".client[id=chk-client-" + client_id + "]").length == 0) {
