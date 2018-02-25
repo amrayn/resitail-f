@@ -1,11 +1,14 @@
 {
   "name": "resitail-f",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Stream residue logs and forever to your browser",
   "homepage": "https://github.com/muflihun/resitail-f",
   "author": "Muflihun Labs <info@muflihun.com>",
   "license": "Apache-2.0",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
+  },
   "repository": {
     "type": "git",
     "url": "http://github.com/muflihun/resitail-f.git"
