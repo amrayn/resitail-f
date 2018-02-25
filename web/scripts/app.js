@@ -75,13 +75,28 @@
       });
   });
   
-  socket.on("data", function(data){
+  socket.on("data", function(inp){
+      const data = inp.data;
       const loggerId = data.logger_id || data.channel_name;
       const clientId = data.client_id || data.channel_name;
-      
+
+      const classes = ['line', `evt-${data.event_type}`];
+
+      if (!$("#chk-logger-" + loggerId).is(":checked")) {
+          classes.push('hidden-logger');
+      }
+
+      if (!$("#chk-client-" + clientId).is(":checked")) {
+          classes.push('hidden-client');
+      }
+
+      if (inp.is_err) {
+          classes.push('log-error');
+      }
+
       const newLine = $("<div>", {
           "text": data.line,
-          "class": "line " + 'evt-' + data.event_type + ' ' + ($("#chk-logger-" + loggerId).is(":checked") ? "" : "hidden-logger") + ($("#chk-client-" + clientId).is(":checked") ? "" : "hidden-client"),
+          "class": classes.join(' ' ),
           "data-logger": loggerId,
           "data-client": clientId,
       });

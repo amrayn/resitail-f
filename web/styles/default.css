@@ -1,4 +1,8 @@
 
+body {
+    margin: 1px;
+}
+
 #lines {
     display: inline-block;
     font-family: monospace;
@@ -21,13 +25,16 @@
     text-indent: -84pt;
     margin-bottom: 0;
     word-wrap: break-word;
+    background-color: #000;
+    color: #0f0;
 }
 
 .line.evt-info {
-    color: #00f;
+    color: #96969e;
 }
 
-.line.evt-error {
+.line.evt-error,
+.line.log-error {
     color: #f00;
 }
 
@@ -42,12 +49,13 @@ h5 {
 #side-bar {
     position: fixed;
     display: inline-block;
-    background-color: #cdda0e3d;
+    background-color: #fcffda;
     height: 95%;
     width: 150px;
-    padding: 10px;
+    padding: 5px;
+    padding-right: 0;
     border-radius: 3px;
-    border: 1px solid #bbce1c;
+    border: 1px solid #b9ce1c;
     overflow: scroll;
 }
 

@@ -43,7 +43,11 @@ function resitailf (options) {
         for (var i = 0; i < this.connected_clients.length; ++i) {
             if (this.connected_clients[i].ignore_loggers_list.indexOf(loggerId) === -1 &&
                 this.connected_clients[i].ignore_clients_list.indexOf(clientId) === -1) {
-                this.io.sockets.connected[this.connected_clients[i].socket].emit("data", data);
+                this.io.sockets.connected[this.connected_clients[i].socket].emit("data", {
+                    data,
+                    is_err: data.line.indexOf('[ERROR]') > -1,
+                    is_inf: data.line.indexOf('[INFO]') > -1,
+                });
             }
         }
     }
