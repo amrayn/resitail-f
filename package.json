@@ -7,6 +7,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "express": "^4.16.2",
+    "lodash.includes": "^4.3.0",
     "socket.io": "^2.0.4"
   },
   "repository": {

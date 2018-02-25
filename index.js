@@ -20,6 +20,7 @@
 
 const fs = require('fs');
 const socket = require('socket.io');
+const includes = require('lodash.includes');
 const Server = require('./lib/server.js');
 
 function resitailf (options) {
