@@ -43,6 +43,11 @@ body {
     color: #4e862e;
 }
 
+.line.log-crazy,
+.line.log-trace {
+    color: #3c3c3c;
+}
+
 .loggers-list {
     margin-left: 12px;
 }
