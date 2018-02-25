@@ -82,27 +82,21 @@
 
       const classes = ['line', `evt-${data.event_type}`];
 
-      if (!$("#chk-logger-" + loggerId).is(":checked")) {
+      if (!document.getElementById('chk-logger-' + loggerId).checked) {
           classes.push('hidden-logger');
       }
 
-      if (!$("#chk-client-" + clientId).is(":checked")) {
+      if (!document.getElementById('chk-client-' + clientId).checked) {
           classes.push('hidden-client');
       }
 
       if (inp.log_type) {
           classes.push(`log-${inp.log_type}`);
       }
-
-      const newLine = $("<div>", {
-          "text": data.line,
-          "class": classes.join(' ' ),
-          "data-logger": loggerId,
-          "data-client": clientId,
-      });
-      $("#lines").append(newLine);
+      const newLine = `<div class='${classes.join(' ')}' data-logger='${loggerId}' data-client='${clientId}'>${data.line}</div>`;
+      document.getElementById('lines').innerHTML += newLine;
       
-      if ($("#follow").is(":checked")) {
-          newLine[0].scrollIntoView(false);
+      if (document.getElementById('follow').checked) {
+          window.scrollTo(0, document.getElementById('scroll-checkpoint').offsetTop);
       }
   });
