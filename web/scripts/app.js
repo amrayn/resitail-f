@@ -1,6 +1,8 @@
 
   var socket = io.connect('/');
 
+  const MAX_LINES = 1000;
+
   $(document).ready(function() {
       socket.emit("client-ready");
   });
@@ -106,5 +108,8 @@
           newLine[0].scrollIntoView(false);
       }
 
-      $(".line:not(:nth-child(n+" + ($(".line").length - 5000) + "))").remove(); // remove old logs
+      const lineCount = $(".line").length;
+      if (lineCount > MAX_LINES) {
+        $(".line:not(:nth-child(n+" + (lineCount - MAX_LINES) + "))").remove(); // remove old logs
+      }
   });
