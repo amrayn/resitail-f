@@ -1,6 +1,6 @@
 {
   "name": "resitail-f",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Stream residue logs and forever to your browser",
   "homepage": "https://github.com/muflihun/resitail-f",
   "author": "Muflihun Labs <info@muflihun.com>",

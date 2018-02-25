@@ -1,7 +1,7 @@
 
   var socket = io.connect('/');
 
-  const MAX_LINES = 1000;
+  var max_lines = 1000;
 
   $(document).ready(function() {
       socket.emit("client-ready");
@@ -35,43 +35,46 @@
       }
   });
 
-  socket.on("server-info", function(serverInfo){
-      serverInfo.clients.forEach((client) => {
-          const clientId = client.client_id;
-          if ($("#side-bar").find(".client[id=chk-client-" + clientId + "]").length == 0) {
+  socket.on("server-info", function(server_info){
+      if (server_info.max_lines) {
+        max_lines = server_info.max_lines;
+      }
+      server_info.clients.forEach((client) => {
+          const client_id = client.client_id;
+          if ($("#side-bar").find(".client[id=chk-client-" + client_id + "]").length == 0) {
               $("#side-bar>.clients").append($("<input>", {
                   "type": "checkbox",
                   "checked": true,
-                  "text": clientId,
+                  "text": client_id,
                   "class": "client",
-                  "id": "chk-client-" + clientId,
-                  "name": clientId,
+                  "id": "chk-client-" + client_id,
+                  "name": client_id,
               }));
               $("#side-bar>.clients").append($("<label>", {
-                  "for": "chk-client-" + clientId,
-                  "text": clientId,
+                  "for": "chk-client-" + client_id,
+                  "text": client_id,
                   "class": "client-label",
               }));
-              $("#side-bar>.clients").append("<div class='" + clientId + "-loggers-list loggers-list'></div>");
+              $("#side-bar>.clients").append("<div class='" + client_id + "-loggers-list loggers-list'></div>");
               $("#side-bar>.clients").append("<br/>");
           }
-          client.loggers.forEach((loggerId) => {
-              if ($("." + clientId + "-loggers-list").find(".logger[id=chk-logger-" + loggerId + "]").length == 0) {
-                  $("." + clientId + "-loggers-list").append($("<input>", {
+          client.loggers.forEach((logger_id) => {
+              if ($("." + client_id + "-loggers-list").find(".logger[id=chk-logger-" + logger_id + "]").length == 0) {
+                  $("." + client_id + "-loggers-list").append($("<input>", {
                       "type": "checkbox",
                       "checked": true,
-                      "text": loggerId,
+                      "text": logger_id,
                       "class": "logger",
-                      "id": "chk-logger-" + loggerId,
-                      "name": loggerId,
+                      "id": "chk-logger-" + logger_id,
+                      "name": logger_id,
                   }));
 
-                  $("." + clientId + "-loggers-list").append($("<label>", {
-                      "for": "chk-logger-" + loggerId,
-                      "text": loggerId,
+                  $("." + client_id + "-loggers-list").append($("<label>", {
+                      "for": "chk-logger-" + logger_id,
+                      "text": logger_id,
                       "class": "logger-label",
                   }));
-                  $("." + clientId + "-loggers-list").append("<br/>");
+                  $("." + client_id + "-loggers-list").append("<br/>");
               }
           });
       });
@@ -79,16 +82,16 @@
   
   socket.on("data", function(inp){
       const data = inp.data;
-      const loggerId = data.logger_id || data.channel_name;
-      const clientId = data.client_id || data.channel_name;
+      const logger_id = data.logger_id || data.channel_name;
+      const client_id = data.client_id || data.channel_name;
 
       const classes = ['line', `evt-${data.event_type}`];
 
-      if (!$("#chk-logger-" + loggerId).is(":checked")) {
+      if (!$("#chk-logger-" + logger_id).is(":checked")) {
           classes.push('hidden-logger');
       }
 
-      if (!$("#chk-client-" + clientId).is(":checked")) {
+      if (!$("#chk-client-" + client_id).is(":checked")) {
           classes.push('hidden-client');
       }
 
@@ -99,8 +102,8 @@
       const newLine = $("<div>", {
           "text": data.line,
           "class": classes.join(' ' ),
-          "data-logger": loggerId,
-          "data-client": clientId,
+          "data-logger": logger_id,
+          "data-client": client_id,
       });
       $("#lines").append(newLine);
       
@@ -109,7 +112,7 @@
       }
 
       const lineCount = $(".line").length;
-      if (lineCount > MAX_LINES) {
-        $(".line:not(:nth-child(n+" + (lineCount - MAX_LINES) + "))").remove(); // remove old logs
+      if (lineCount > max_lines) {
+        $(".line:not(:nth-child(n+" + (lineCount - max_lines) + "))").remove(); // remove old logs
       }
   });

@@ -25,7 +25,7 @@ const Server = require('./lib/server.js');
 
 function resitailf(options) {
     this.config = options.config;
-    this.serverInfo = options.serverInfo;
+    this.server_info = options.serverInfo;
 
     const server = new Server(this.config);
     this.io = server.io;
@@ -69,7 +69,10 @@ function resitailf(options) {
                 ignore_clients_list: [],
                 ignore_loggers_list: [],
             });
-            socket.emit("server-info", _this.serverInfo);
+            socket.emit("server-info", {
+                ..._this.server_info,
+                max_lines: _this.config.max_lines,
+            });
 
             if (_this.recent) {
                 if (_this.recent.loggers) {
