@@ -6,16 +6,21 @@
   $(document).ready(function() {
       socket.emit("client-ready");
   });
+
+  function normalizeSelector(name) {
+    return name.replace(/\.|@|#/g, "\\\\$&")
+  }
   
   $(document).on("click", "#side-bar>.clients input.client", function() {
       if ($(this).is(":checked")) {
           socket.emit("start-client", {
               id: $(this).attr("name"),
           });
-          $("." + $(this).attr("name") + "-loggers-list").find(".logger").removeProp('disabled');
+          $("." + normalizeSelector($(this).attr("name")) + "-loggers-list").find(".logger").removeProp('disabled');
       } else {
-          $(".line[data-client=" + $(this).attr("name") + "]").remove();
-          $("." + $(this).attr("name") + "-loggers-list").find(".logger").prop('disabled', true);
+          $(".line[data-client='" + normalizeSelector($(this).attr("name")) + "']").remove();
+          $("." + normalizeSelector($(this).attr("name")) + "-loggers-list").find(".logger").prop('disabled', true);
+
           socket.emit("stop-client", {
               id: $(this).attr("name"),
           });
@@ -28,7 +33,7 @@
               id: $(this).attr("name"),
           });
       } else {
-          $(".line[data-logger=" + $(this).attr("name") + "]").remove();
+          $(".line[data-logger='" + normalizeSelector($(this).attr("name")) + "']").remove();
           socket.emit("stop-logger", {
               id: $(this).attr("name"),
           });
@@ -42,7 +47,7 @@
       const server_info = info.server_info;
       server_info.clients.forEach((client) => {
           const client_id = client.client_id;
-          if ($("#side-bar").find(".client[id=chk-client-" + client_id + "]").length == 0) {
+          if ($("#side-bar").find(".client[id='chk-client-" + normalizeSelector(client_id) + "']").length == 0) {
               $("#side-bar>.clients").append($("<input>", {
                   "type": "checkbox",
                   "checked": true,
@@ -56,12 +61,12 @@
                   "text": client_id,
                   "class": "client-label",
               }));
-              $("#side-bar>.clients").append("<div class='" + client_id + "-loggers-list loggers-list'></div>");
+              $("#side-bar>.clients").append("<div class='" + normalizeSelector(client_id) + "-loggers-list loggers-list'></div>");
               $("#side-bar>.clients").append("<br/>");
           }
           client.loggers.forEach((logger_id) => {
-              if ($("." + client_id + "-loggers-list").find(".logger[id=chk-logger-" + logger_id + "]").length == 0) {
-                  $("." + client_id + "-loggers-list").append($("<input>", {
+              if ($("." + normalizeSelector(client_id) + "-loggers-list").find(".logger[id='chk-logger-" + normalizeSelector(logger_id) + "']").length == 0) {
+                  $("." + normalizeSelector(client_id) + "-loggers-list").append($("<input>", {
                       "type": "checkbox",
                       "checked": true,
                       "text": logger_id,
@@ -70,12 +75,12 @@
                       "name": logger_id,
                   }));
 
-                  $("." + client_id + "-loggers-list").append($("<label>", {
+                  $("." + normalizeSelector(client_id) + "-loggers-list").append($("<label>", {
                       "for": "chk-logger-" + logger_id,
                       "text": logger_id,
                       "class": "logger-label",
                   }));
-                  $("." + client_id + "-loggers-list").append("<br/>");
+                  $("." + normalizeSelector(client_id) + "-loggers-list").append("<br/>");
               }
           });
       });
@@ -88,11 +93,11 @@
 
       const classes = ['line', `evt-${data.event_type}`];
 
-      if (!$("#chk-logger-" + logger_id).is(":checked")) {
+      if (!$("#chk-logger-" + normalizeSelector(logger_id)).is(":checked")) {
           classes.push('hidden-logger');
       }
 
-      if (!$("#chk-client-" + client_id).is(":checked")) {
+      if (!$("#chk-client-" + normalizeSelector(client_id)).is(":checked")) {
           classes.push('hidden-client');
       }
 
