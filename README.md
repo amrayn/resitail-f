@@ -11,3 +11,11 @@ resitail-f is [resitail hook](https://github.com/muflihun/resitail#overview) tha
  * Login for clients - so not everyone who is using this interface can see everyone's logs on the server
  * Better interface - where each client is a `channel` hence you can browse and filter logs for the current channel
  * Speed - unlike resitail-browser, resitail-f is aimed to use native javascript in order to access and modify DOM without compromising speed or lag as updating the DOM can be slow at times
+
+## Configuration
+
+ | **Config** | Description |
+ |-----------|--------------|
+ | port | Port for HTTP server|
+ | key (optional) | 256-bit AES key for secure clients |
+ | strict (optional) | If true a list of clients must be provided in parameters |

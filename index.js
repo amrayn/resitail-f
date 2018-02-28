@@ -21,6 +21,8 @@
 const fs = require('fs');
 const socket = require('socket.io');
 const includes = require('lodash.includes');
+const remove = require('lodash.remove');
+const crypto = require('crypto'); // must have node enabled
 const Server = require('./lib/server.js');
 
 function resitailf(options) {
@@ -41,8 +43,12 @@ function resitailf(options) {
         const client_id = data.client_id || data.channel_name;
 
         for (var i = 0; i < this.connected_clients.length; ++i) {
-            if (this.connected_clients[i].ignore_loggers_list.indexOf(logger_id) === -1 &&
-                    this.connected_clients[i].ignore_clients_list.indexOf(client_id) === -1) {
+            if (!includes(this.connected_clients[i].ignore_loggers_list, logger_id) &&
+                    !includes(this.connected_clients[i].ignore_clients_list, client_id)) {
+                if (this.config.strict && !includes(this.connected_clients[i].clients, client_id)) {
+                    continue;
+                }
+
                 const data_ = {
                     data
                 };
@@ -55,7 +61,7 @@ function resitailf(options) {
                         }
                     }
                 }
-                this.io.sockets.connected[this.connected_clients[i].socket].emit("data", data_);
+                this.io.sockets.connected[this.connected_clients[i].socket].emit('data', data_);
             }
         }
     }
@@ -66,7 +72,7 @@ function resitailf(options) {
         var obj_url = {};
 
         str.replace(
-            new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
+            new RegExp( '([^?=&]+)(=([^&]*))?', 'g' ),
             function( $0, $1, $2, $3 ){
                 obj_url[ $1 ] = $3;
             }
@@ -77,14 +83,56 @@ function resitailf(options) {
     server.io.sockets.on('connection', (socket) => {
         const _this = this;
 
-        socket.on('client-ready', function() {
-            _this.connected_clients.push({
+        socket.on('client-ready', function(data) {
+            let search = data.search || '';
+            if (_this.config.key && _this.config.key.length === 64 && _this.config.strict) {
+                search = '';
+            }
+
+            if (data.hash.length > 32) {
+                try {
+                    const inp = new Buffer(data.hash.substr(33), 'base64');
+                    const iv = data.hash.substr(1, 32);
+
+                    let decipher = crypto.createDecipheriv('aes-256-cbc', new Buffer(_this.config.key, 'hex'), new Buffer(iv, 'hex'));
+                    decipher.setAutoPadding(false);
+
+                    search = '?' + decipher.update(inp, 'base64', 'utf-8');
+                    search = search.split('\b').join('');
+                } catch (err) {
+                    search = '';
+                }
+            }
+
+            if (search.length === 0 && _this.config.strict) {
+                socket.emit('server-error', {
+                    error_text: 'invalid key',
+                    max_lines: _this.config.max_lines,
+                });
+                return;
+            }
+
+            const client_data = {
                 socket: socket.id,
                 ignore_clients_list: [],
                 ignore_loggers_list: [],
-            });
-            socket.emit("server-ready", {
-                server_info: _this.server_info,
+                clients: [],
+            };
+
+            if (search.length > 0) {
+                const prms = _this.parse_query(search);
+                prms['clients'] = prms['clients'] || '';
+                client_data.clients = prms['clients'].split(',');
+            }
+            _this.connected_clients.push(client_data);
+            const custom_server_info = JSON.parse(JSON.stringify(_this.server_info));
+
+            if (client_data.clients.length !== 0 && custom_server_info.clients && search.length > 0) {
+                // filter
+                remove(custom_server_info.clients, item => !includes(client_data.clients, item.client_id));
+            }
+            socket.emit('server-ready', {
+                server_info: custom_server_info,
                 max_lines: _this.config.max_lines,
             });
 

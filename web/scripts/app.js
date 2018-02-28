@@ -4,7 +4,7 @@
   var max_lines = 1000;
 
   $(document).ready(function() {
-      socket.emit("client-ready");
+      socket.emit("client-ready", { search: window.location.search, hash: window.location.hash });
   });
 
   function normalizeSelector(name) {
@@ -38,6 +38,10 @@
               id: $(this).attr("name"),
           });
       }
+  });
+
+  socket.on("server-error", function(data){
+    $("#lines").append("<div class='line log-error'>Invalid key</div>");
   });
 
   socket.on("server-ready", function(info){
