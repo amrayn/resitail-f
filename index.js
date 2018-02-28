@@ -42,7 +42,7 @@ function resitailf(options) {
 
         for (var i = 0; i < this.connected_clients.length; ++i) {
             if (this.connected_clients[i].ignore_loggers_list.indexOf(logger_id) === -1 &&
-                this.connected_clients[i].ignore_clients_list.indexOf(client_id) === -1) {
+                    this.connected_clients[i].ignore_clients_list.indexOf(client_id) === -1) {
                 const data_ = {
                     data
                 };
@@ -58,6 +58,20 @@ function resitailf(options) {
                 this.io.sockets.connected[this.connected_clients[i].socket].emit("data", data_);
             }
         }
+    }
+
+    // https://stackoverflow.com/questions/523266
+    this.parse_query = (str) => {
+
+        var obj_url = {};
+
+        str.replace(
+            new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
+            function( $0, $1, $2, $3 ){
+                obj_url[ $1 ] = $3;
+            }
+        );
+        return obj_url;
     }
 
     server.io.sockets.on('connection', (socket) => {
