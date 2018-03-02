@@ -108,6 +108,7 @@ function resitailf(options) {
                 socket.emit('server-error', {
                     error_text: 'invalid key',
                     max_lines: _this.config.max_lines,
+                    theme: _this.config.theme,
                 });
                 return;
             }
@@ -134,6 +135,7 @@ function resitailf(options) {
             socket.emit('server-ready', {
                 server_info: custom_server_info,
                 max_lines: _this.config.max_lines,
+                theme: _this.config.theme,
             });
 
             if (_this.recent) {

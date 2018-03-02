@@ -49,6 +49,16 @@
   });
 
   socket.on("server-ready", function(info){
+      if (info.theme) {
+          var head  = document.getElementsByTagName('head')[0];
+          var link  = document.createElement('link');
+          link.id   = 'theme';
+          link.rel  = 'stylesheet';
+          link.type = 'text/css';
+          link.href = '/styles/themes/' + info.theme + '.css';
+          link.media = 'all';
+          head.appendChild(link);
+      }
       if (info.max_lines) {
         max_lines = info.max_lines;
       }

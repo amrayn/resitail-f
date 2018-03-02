@@ -1,0 +1,39 @@
+body {
+    background-color: #fff;
+}
+
+#side-bar {
+    background-color: #fcffda;
+    border: 1px solid #b9ce1c;
+}
+
+.tip {
+    color: #999;
+}
+
+#hide {
+    background-color: #fff;
+}
+
+.line {
+    background-color: #fff;
+    color: #000;
+}
+
+.line.evt-info {
+    color: #96969e;
+}
+
+.line.evt-error,
+.line.log-error {
+    color: #f00;
+}
+
+.line.log-debug {
+    color: #4e862e;
+}
+
+.line.log-crazy,
+.line.log-trace {
+    color: #3c3c3c;
+}

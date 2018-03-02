@@ -1,7 +1,6 @@
 
 body {
     margin: 1px;
-    background-color: #000;
 }
 
 #lines {
@@ -26,26 +25,6 @@ body {
     text-indent: -50pt;
     margin-bottom: 0;
     word-wrap: break-word;
-    background-color: #000;
-    color: #0f0;
-}
-
-.line.evt-info {
-    color: #96969e;
-}
-
-.line.evt-error,
-.line.log-error {
-    color: #f00;
-}
-
-.line.log-debug {
-    color: #4e862e;
-}
-
-.line.log-crazy,
-.line.log-trace {
-    color: #3c3c3c;
 }
 
 .loggers-list {
@@ -59,19 +38,16 @@ h5 {
 #hide {
     float: right;
     margin-right: 3px;
-    background-color: #fff;
 }
 
 #side-bar {
     position: fixed;
     display: inline-block;
-    background-color: #fcffda;
     height: 95%;
     width: 150px;
     padding: 5px;
     padding-right: 0;
     border-radius: 3px;
-    border: 1px solid #b9ce1c;
     overflow: scroll;
 }
 
@@ -111,7 +87,6 @@ h5 {
 }
 
 .tip {
-    color: #999;
     font-size: 0.8em;
 }
 
