@@ -49,7 +49,7 @@
   });
 
   socket.on("server-ready", function(info){
-      if (info.theme) {
+      if (info.theme && info.theme != 'default') {
           var head  = document.getElementsByTagName('head')[0];
           var link  = document.createElement('link');
           link.id   = 'theme';
