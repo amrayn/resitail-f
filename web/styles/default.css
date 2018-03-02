@@ -56,6 +56,12 @@ h5 {
     margin-bottom: 10px;
 }
 
+#hide {
+    float: right;
+    margin-right: 3px;
+    background-color: #fff;
+}
+
 #side-bar {
     position: fixed;
     display: inline-block;

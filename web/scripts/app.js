@@ -5,6 +5,10 @@
 
   $(document).ready(function() {
       socket.emit("client-ready", { search: window.location.search, hash: window.location.hash });
+      $("#hide").click(function() {
+          $("#lines").removeClass("has-side-bar");
+          $("#side-bar").hide();
+      });
   });
 
   function normalizeSelector(name) {
