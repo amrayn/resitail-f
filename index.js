@@ -28,6 +28,7 @@ const Server = require('./lib/server.js');
 function resitailf(options) {
     this.config = options.config;
     this.server_info = options.serverInfo;
+    this.logger = options.logger;
 
     const server = new Server(this.config);
     this.io = server.io;
