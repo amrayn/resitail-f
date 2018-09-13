@@ -18,4 +18,5 @@ resitail-f is [resitail hook](https://github.com/muflihun/resitail#overview) tha
  |-----------|--------------|
  | port | Port for HTTP server|
  | key (optional) | 256-bit AES key for secure clients |
+ | auth (optional) | Object of "user" and "pwd_hash" (md5 hash of password) |
  | strict (optional) | If true a list of clients must be provided in parameters |
