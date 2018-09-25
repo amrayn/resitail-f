@@ -45,9 +45,11 @@ h5 {
 }
 
 #show {
+  display: none;
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 3px;
+  right: 3px;
+  opacity: 0.5;
 }
 
 #side-bar {
