@@ -8,13 +8,21 @@
       $("#hide").click(function() {
           $("#lines").removeClass("has-side-bar");
           $("#side-bar").hide();
+          $("#show").hide();
+          $("#show").show();
+      });
+      $("#show").click(function() {
+          $("#lines").addClass("has-side-bar");
+          $("#side-bar").show();
+          $("#hide").show();
+          $("#show").hide();
       });
   });
 
   function normalizeSelector(name) {
     return name.replace(/\.|@|#/g, "\\$&")
   }
-  
+
   $(document).on("click", "#side-bar>.clients input.client", function() {
       if ($(this).is(":checked")) {
           socket.emit("start-client", {
@@ -30,7 +38,7 @@
           });
       }
   });
-  
+
   $(document).on("click", "#side-bar>.clients .loggers-list input.logger", function() {
       if ($(this).is(":checked")) {
           socket.emit("start-logger", {
@@ -103,7 +111,7 @@
           });
       });
   });
-  
+
   socket.on("data", function(inp){
       const data = inp.data;
       const logger_id = data.logger_id || data.channel_name;
@@ -130,7 +138,7 @@
           "data-client": client_id,
       });
       $("#lines").append(newLine);
-      
+
       if ($("#follow").is(":checked")) {
           newLine[0].scrollIntoView(false);
       }
