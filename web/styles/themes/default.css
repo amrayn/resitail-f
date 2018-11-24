@@ -24,6 +24,11 @@ body {
     color: #96969e;
 }
 
+.line.evt-warning,
+.line.log-warning {
+    color: #cdd400;
+}
+
 .line.evt-error,
 .line.log-error {
     color: #f00;
