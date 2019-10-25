@@ -2,8 +2,8 @@
   "name": "resitail-f",
   "version": "0.0.44",
   "description": "Stream residue logs to your browser",
-  "homepage": "https://github.com/zuhd-org/resitail-f",
-  "author": "Zuhd Web Services <opensource@zuhd.org>",
+  "homepage": "https://github.com/amrayn/resitail-f",
+  "author": "Amrayn Web Services <opensource@amrayn.com>",
   "license": "Apache-2.0",
   "dependencies": {
     "express": "^4.16.2",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/zuhd-org/resitail-f.git"
+    "url": "http://github.com/amrayn/resitail-f.git"
   },
   "keywords": [
     "tail",
